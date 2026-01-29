@@ -1,9 +1,16 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+
 import './index.css'
+import Router from './routes/router'
+
+const queryClient = new QueryClient()
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <h1>Hola mundo</h1>
+    <QueryClientProvider client={queryClient}>
+      <Router />
+    </QueryClientProvider>
   </StrictMode>,
 )
