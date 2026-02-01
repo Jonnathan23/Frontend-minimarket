@@ -1,7 +1,10 @@
 import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
+
 import AuthForm from "../components/AuthForm";
 import type { LoginUserDTO } from "../../domain/entities/user.entity";
-import { useForm } from "react-hook-form";
+
+
 
 export default function LoginPage() {
     const { register, handleSubmit, formState: { errors } } = useForm<LoginUserDTO>();
