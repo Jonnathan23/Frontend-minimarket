@@ -1,6 +1,7 @@
 import type { AxiosInstance } from "axios";
 import axios from "axios";
-import { zodValidator } from "./zod-validator";
+
+import type { Validator } from "./validator";
 
 
 type Operation<T> = () => Promise<{ data: T }>;
@@ -8,10 +9,12 @@ type Operation<T> = () => Promise<{ data: T }>;
 export class Api {
     private static instance: Api;
     private axiosInstance: AxiosInstance;
+    private validator: Validator;
 
-    private constructor() {
+    private constructor(validator: Validator, backendUrl: string) {
+        this.validator = validator;
         this.axiosInstance = axios.create({
-            baseURL: import.meta.env.VITE_API_URL || 'http://localhost:4000/api',
+            baseURL: backendUrl,
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -27,9 +30,9 @@ export class Api {
         });
     }
 
-    public static getInstance(): Api {
+    public static getInstance(validator: Validator, backendUrl: string): Api {
         if (!Api.instance) {
-            Api.instance = new Api();
+            Api.instance = new Api(validator, backendUrl);
         }
         return Api.instance;
     }
@@ -40,7 +43,7 @@ export class Api {
 
         if (!schema) return data as T;
 
-        return zodValidator.validate<T>(schema, data);
+        return this.validator.validate<T>(schema, data);
     }
 
     public async get<T>(url: string, schema?: unknown): Promise<T> {
