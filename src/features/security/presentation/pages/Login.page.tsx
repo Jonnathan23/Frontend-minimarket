@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 
 import AuthForm from "../components/AuthForm";
@@ -14,19 +13,19 @@ export default function LoginPage() {
     };
 
     return (
-        <>
-            <form onSubmit={handleSubmit(onSubmit)}>
+        <div className="p-8">
+            <div className="text-center mb-8">
+                <h2 className="text-2xl font-bold text-gray-900">Bienvenido de nuevo</h2>
+                <p className="text-gray-500 mt-1">Ingresa tus credenciales para continuar</p>
+            </div>
+
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <AuthForm isRegister={false} register={register} errors={errors} />
 
-                <div>
-                    <button>Iniciar Sesión</button>
-                </div>
-
-                <div>
-                    <p>¿No tienes una cuenta?</p>
-                    <Link to="/register">Registrarse</Link>
-                </div>
+                <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-colors shadow-lg shadow-blue-200">
+                    Iniciar Sesión
+                </button>                
             </form>
-        </>
+        </div>
     );
 }
