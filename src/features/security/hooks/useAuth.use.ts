@@ -1,12 +1,11 @@
 import { useMutation } from "@tanstack/react-query"
 import { AuthRepositoryImpl } from "../services/auth.api"
-import type { LoginUserDTO } from "../types/auth.types"
+import type { CreateUserDTO, LoginUserDTO } from "../types/auth.types"
 import { ShowMessageAdapter } from "../../../core/utils/MessageAdapter"
 
 
 
 export const useAuth = () => {
-
     return useMutation({
         mutationFn: (credentials: LoginUserDTO) => AuthRepositoryImpl.login(credentials),
         onSuccess: () => { ShowMessageAdapter.success("Bienvenido al sistema"); },
@@ -15,3 +14,10 @@ export const useAuth = () => {
 }
 
 
+export const useRegister = () => {
+    return useMutation({
+        mutationFn: (credentials: CreateUserDTO) => AuthRepositoryImpl.register(credentials),
+        onSuccess: (data) => { ShowMessageAdapter.success(data); },
+        onError: (error) => { ShowMessageAdapter.error(error.message); }
+    })
+}

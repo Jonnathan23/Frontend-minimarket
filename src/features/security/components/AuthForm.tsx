@@ -61,21 +61,6 @@ export default function AuthForm<T extends AuthFormData>({ isRegister, register,
                 />
                 {errors.us_password_encriptado?.message && <p className={errorStyles}>{String(errors.us_password_encriptado.message)}</p>}
             </article>
-
-            {isRegister && (
-                <article className="flex items-center gap-3 bg-blue-50 p-3 rounded-lg border border-blue-100">
-                    <input
-                        type="checkbox"
-                        id="estado"
-                        className="w-5 h-5 text-blue-600 border-gray-300 rounded focus:ring-blue-500 cursor-pointer"
-                        {...register('us_estado' as Path<T>)}
-                        defaultChecked={true}
-                    />
-                    <label htmlFor="estado" className="text-sm font-medium text-blue-800 cursor-pointer">
-                        Activar cuenta inmediatamente
-                    </label>
-                </article>
-            )}
         </div>
     );
 }

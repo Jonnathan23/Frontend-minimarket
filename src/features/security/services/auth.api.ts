@@ -6,20 +6,21 @@ import type { AuthResponse, CreateUserDTO, LoginUserDTO } from "../types/auth.ty
 
 
 export const AuthRepositoryImpl = {
-    login: async (credentials: LoginUserDTO) => {
+    login: async (credentials: LoginUserDTO): Promise<void> => {
         try {
-            const url = `/login`;
+            const url = `auth/login`;
             const authResponse = await api.post<AuthResponse, LoginUserDTO>(url, credentials, AuthResponseSchema);
-            return authResponse;
+            localStorage.setItem("token", authResponse.token);
+            return;
         } catch (error) {
             console.log(error);
             throw error;
         }
     },
 
-    register: async (credentials: CreateUserDTO) => {
+    register: async (credentials: CreateUserDTO): Promise<string> => {
         try {
-            const url = `/register`;
+            const url = `auth/register`;
             const authResponse = await api.post<string, CreateUserDTO>(url, credentials);
             return authResponse;
         } catch (error) {

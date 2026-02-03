@@ -1,7 +1,8 @@
 import { useForm } from "react-hook-form";
 
 import AuthForm from "../components/AuthForm";
-import type { LoginUserDTO } from "../../domain/entities/user.entity";
+import type { LoginUserDTO } from "../types/auth.types";
+
 
 
 
@@ -11,6 +12,7 @@ export default function LoginPage() {
     const onSubmit = (data: LoginUserDTO) => {
         console.log(data);
     };
+    
 
     return (
         <div className="p-8">

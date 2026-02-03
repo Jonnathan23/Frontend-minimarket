@@ -3,20 +3,20 @@ import { toast, type Id } from "react-toastify";
 
 export class ShowMessageAdapter {
 
-    static success(message: string) {
-        toast.success(message);
+    static success(message: string): Id {
+        return toast.success(message);
     }
 
-    static error(message: string) {
-        toast.error(message);
+    static error(message: string): Id {
+        return toast.error(message);
     }
 
-    static warning(message: string) {
-        toast.warning(message);
+    static warning(message: string): Id {
+        return toast.warning(message);
     }
 
-    static info(message: string) {
-        toast.info(message);
+    static info(message: string): Id {
+        return toast.info(message);
     }
 
     static loading(message: string): Id {
@@ -30,5 +30,9 @@ export class ShowMessageAdapter {
             isLoading: false,
             autoClose: 3000
         });
+    }
+
+    static closeToast(toastId: Id) {
+        toast.dismiss(toastId);
     }
 }
