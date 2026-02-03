@@ -1,6 +1,6 @@
 import { type FieldErrors, type Path, type UseFormRegister } from 'react-hook-form';
 
-import type { CreateUserDTO, LoginUserDTO } from '../../domain/entities/user.entity';
+import type { CreateUserDTO, LoginUserDTO } from '../types/auth.types';
 
 
 

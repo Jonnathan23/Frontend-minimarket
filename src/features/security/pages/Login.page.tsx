@@ -24,7 +24,7 @@ export default function LoginPage() {
 
                 <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-colors shadow-lg shadow-blue-200">
                     Iniciar Sesión
-                </button>                
+                </button>
             </form>
         </div>
     );

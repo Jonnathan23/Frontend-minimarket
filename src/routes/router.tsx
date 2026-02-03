@@ -2,9 +2,9 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import AppLayout from "../layouts/AppLayout";
 import AuthLayout from "../layouts/AuthLayout";
-import LoginPage from "../features/security/presentation/pages/Login.page";
+import LoginPage from "../features/security/pages/Login.page";
 
-import RegisterPage from "../features/security/presentation/pages/Register.page";
+import RegisterPage from "../features/security/pages/Register.page";
 
 
 export default function Router() {
@@ -12,7 +12,7 @@ export default function Router() {
         <BrowserRouter>
             <Routes>
                 <Route element={<AppLayout />}>
-                    
+
                 </Route>
             </Routes>
             <Routes>
