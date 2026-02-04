@@ -15,8 +15,6 @@ export default function RegisterPage() {
     //* Events
     const onSubmit = (data: CreateUserDTO) => { mutate(data); };
 
-
-
     return (
         <div className="p-8">
             <div className="text-center mb-8">
