@@ -5,7 +5,7 @@ import { ShowMessageAdapter } from "../../../core/utils/MessageAdapter"
 
 
 
-export const useAuth = () => {
+export const useLogin = () => {
     return useMutation({
         mutationFn: (credentials: LoginUserDTO) => AuthRepositoryImpl.login(credentials),
         onSuccess: () => { ShowMessageAdapter.success("Bienvenido al sistema"); },
