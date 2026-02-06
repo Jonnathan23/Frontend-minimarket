@@ -24,7 +24,7 @@ export default function LoginPage() {
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <AuthForm isRegister={false} register={register} errors={errors} />
 
-                <button disabled={isPending} className={`w-full text-white font-bold py-3 rounded-xl transition-colors shadow-lg ${isPending ? "bg-blue-600 hover:bg-blue-700" : "bg-blue-600 hover:bg-blue-700"}`}>
+                <button disabled={isPending} className={`w-full text-white font-bold py-3 rounded-xl transition-colors shadow-lg ${isPending ? "bg-gray-400 cursor-not-allowed" : "bg-blue-600 hover:bg-blue-700 cursor-pointer"}`}>
                     {isPending ? "Iniciando Sesión..." : "Iniciar Sesión"}
                 </button>
             </form>

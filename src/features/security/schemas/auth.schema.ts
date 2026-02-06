@@ -10,5 +10,5 @@ export const UserSchema = object({
 });
 
 export const AuthResponseSchema = object({
-    token: string(),
+    token: string()
 });

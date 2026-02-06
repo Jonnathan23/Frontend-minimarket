@@ -13,12 +13,12 @@ export default function Router() {
             <Routes>
                 <Route element={<AppLayout />}>
                     <Route path="/" element={<DashboardPage />} />
+                    <Route path="/auth/register-new-user" element={<RegisterPage />} />
                 </Route>
             </Routes>
             <Routes>
                 <Route element={<AuthLayout />}>
                     <Route path="/auth/login" element={<LoginPage />} />
-                    <Route path="/auth/register-new-user" element={<RegisterPage />} />
                 </Route>
             </Routes>
         </BrowserRouter>
