@@ -1,16 +1,18 @@
 import { useForm } from "react-hook-form";
 
 import AuthForm from "../components/AuthForm";
-import type { LoginUserDTO } from "../../domain/entities/user.entity";
+import type { LoginUserDTO } from "../types/auth.types";
+import { useLogin } from "../hooks/useAuth.use";
+
 
 
 
 export default function LoginPage() {
     const { register, handleSubmit, formState: { errors } } = useForm<LoginUserDTO>();
+    const { mutate, isPending } = useLogin();
 
-    const onSubmit = (data: LoginUserDTO) => {
-        console.log(data);
-    };
+    const onSubmit = (data: LoginUserDTO) => { mutate(data); };
+
 
     return (
         <div className="p-8">
@@ -22,9 +24,9 @@ export default function LoginPage() {
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
                 <AuthForm isRegister={false} register={register} errors={errors} />
 
-                <button className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 rounded-xl transition-colors shadow-lg shadow-blue-200">
-                    Iniciar Sesión
-                </button>                
+                <button disabled={isPending} className={`w-full text-white font-bold py-3 rounded-xl transition-colors shadow-lg ${isPending ? "bg-blue-600 hover:bg-blue-700" : "bg-blue-600 hover:bg-blue-700"}`}>
+                    {isPending ? "Iniciando Sesión..." : "Iniciar Sesión"}
+                </button>
             </form>
         </div>
     );

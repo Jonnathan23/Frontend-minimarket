@@ -1,10 +1,15 @@
-import type { AxiosInstance } from "axios";
+import type { AxiosError, AxiosInstance } from "axios";
 import axios from "axios";
 
 import type { Validator } from "./validator";
 
 
 type Operation<T> = () => Promise<{ data: T }>;
+
+// Definimos la interfaz del error que viene de TU backend
+interface BackendError {
+    errors: { msg: string }[];
+}
 
 export class Api {
     private static instance: Api;
@@ -28,6 +33,18 @@ export class Api {
             }
             return config;
         });
+
+        this.axiosInstance.interceptors.response.use(
+            (response) => response, 
+            (error: AxiosError<BackendError>) => {                
+                if (error.response?.data?.errors && error.response.data.errors.length > 0) {
+                    const errorMessage = error.response.data.errors[0].msg;
+                    return Promise.reject(new Error(errorMessage));
+                }
+
+                return Promise.reject(error);
+            }
+        );
     }
 
     public static getInstance(validator: Validator, backendUrl: string): Api {
