@@ -8,8 +8,8 @@ import { useRegister } from "../hooks/useAuth.use";
 export default function RegisterPage() {
 
     //* Hooks
-    const { register, handleSubmit, formState: { errors } } = useForm<CreateUserDTO>();
-    const { mutate, isPending } = useRegister();
+    const { register, handleSubmit, formState: { errors }, reset } = useForm<CreateUserDTO>();
+    const { mutate, isPending } = useRegister(reset);
 
 
     //* Events

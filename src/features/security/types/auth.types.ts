@@ -1,3 +1,4 @@
+import type { Role } from "./roles.types";
 
 
 export interface User {
@@ -19,6 +20,7 @@ export interface CreateUserDTO {
     us_username: string;
     us_password_encriptado: string;
     us_nombre_completo: string;
+    us_role_id: Role['ro_id'];
 }
 
 export interface AuthResponse {

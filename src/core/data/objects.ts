@@ -1,5 +1,5 @@
 import type { Module } from "../types";
-import { ShoppingCart, Package, Tags, Users, Truck, BarChart3, Settings, UserPlus } from "lucide-react";
+import { ShoppingCart, Package, Tags, Users, Truck, BarChart3, Settings, UserPlus, UserCog } from "lucide-react";
 
 export const modules: Module[] = [
         {
@@ -33,6 +33,14 @@ export const modules: Module[] = [
             color: "bg-orange-600",
             hoverColor: "hover:bg-orange-50",
             path: "/auth/register-new-user"
+        },
+        {
+            title: "Roles",
+            description: "Administrar roles y permisos",
+            icon: UserCog,
+            color: "bg-yellow-600",
+            hoverColor: "hover:bg-yellow-50",
+            path: "/roles"
         },
         {
             title: "Usuarios",

@@ -1,0 +1,126 @@
+import { useState } from "react";
+import RolesForm from "../components/RolesForm";
+import { useGetAllRoles } from "../hooks/useRoles.use";
+import type { Role } from "../types/roles.types";
+import { Edit2, ShieldCheck, Users } from "lucide-react";
+
+
+export default function RolesPage() {
+    // Hooks
+    const { data: roles, isLoading, isError, error } = useGetAllRoles();
+
+    // Estado local
+    const [isEditing, setIsEditing] = useState(false);
+    const [selectedRole, setSelectedRole] = useState<Role | undefined>(undefined);
+
+    // Handlers
+    const handleEditRole = (role: Role) => {
+        setIsEditing(true);
+        setSelectedRole(role);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    const handleCancelEdit = () => {
+        setIsEditing(false);
+        setSelectedRole(undefined);
+    }
+
+    const handleSubmitForm = (data: Role) => {
+        console.log("Enviando al backend:", data);
+        handleCancelEdit();
+    }
+
+    // --- RENDERIZADO CONDICIONAL DE ESTADOS ---
+
+    if (isLoading) return (
+        <div className="p-8 space-y-4 animate-pulse">
+            <div className="h-8 bg-gray-200 rounded w-1/4"></div>
+            <div className="grid md:grid-cols-3 gap-6">
+                <div className="h-64 bg-gray-200 rounded-xl"></div>
+                <div className="md:col-span-2 space-y-3">
+                    {[1, 2, 3].map(i => <div key={i} className="h-20 bg-gray-200 rounded-xl"></div>)}
+                </div>
+            </div>
+        </div>
+    );
+
+    if (isError) return (
+        <div className="p-6 bg-red-50 text-red-600 rounded-xl border border-red-100 flex items-center gap-3">
+            <span>⚠️ Error al cargar roles: {error.message}</span>
+        </div>
+    );
+
+    return (
+        <div className="animate-fadeIn pb-10">
+            {/* Header de la Página */}
+            <div className="mb-8">
+                <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
+                    <ShieldCheck className="text-blue-600" />
+                    Gestión de Roles
+                </h1>
+                <p className="text-gray-500 mt-1">Define los perfiles de acceso para los usuarios del sistema.</p>
+            </div>
+
+
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-start">
+
+
+                <div className="lg:col-span-1">
+                    <RolesForm
+                        isEditing={isEditing}
+                        role={selectedRole}
+                        onCancel={handleCancelEdit}
+                        onSubmitProp={handleSubmitForm}
+                    />
+                </div>
+
+
+                <div className="lg:col-span-2 space-y-4">
+                    <h3 className="font-semibold text-gray-700 mb-4 flex items-center gap-2">
+                        <Users size={18} />
+                        Roles Existentes ({roles?.length || 0})
+                    </h3>
+
+                    {roles?.map((role) => (
+                        <div
+                            key={role.ro_id}
+                            className={`
+                                group bg-white p-4 rounded-xl border transition-all duration-200 flex items-center justify-between
+                                ${selectedRole?.ro_id === role.ro_id
+                                    ? 'border-blue-500 ring-1 ring-blue-500 shadow-md'
+                                    : 'border-gray-100 hover:border-blue-200 hover:shadow-sm'
+                                }
+                            `}
+                        >
+
+                            <div className="flex items-center gap-4">
+                                <div className="w-10 h-10 rounded-full bg-gray-50 flex items-center justify-center text-gray-500 group-hover:bg-blue-50 group-hover:text-blue-600 transition-colors">
+                                    <ShieldCheck size={20} />
+                                </div>
+                                <div>
+                                    <h4 className="font-bold text-gray-800">{role.ro_nombre_del_rol}</h4>
+                                    <span className="text-xs text-gray-400 font-mono">ID: {role.ro_id.slice(0, 8)}...</span>
+                                </div>
+                            </div>
+
+
+                            <button
+                                onClick={() => handleEditRole(role)}
+                                className="cursor-pointer p-2 text-gray-400 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
+                                title="Editar rol"
+                            >
+                                <Edit2 size={18} />
+                            </button>
+                        </div>
+                    ))}
+
+                    {roles?.length === 0 && (
+                        <div className="text-center py-10 bg-gray-50 rounded-xl border border-dashed border-gray-300">
+                            <p className="text-gray-500">No hay roles creados aún.</p>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    );
+}
