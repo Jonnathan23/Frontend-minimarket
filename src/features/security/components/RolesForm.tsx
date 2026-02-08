@@ -8,11 +8,12 @@ import { useEffect } from "react";
 interface RolesFormProps {
     isEditing?: boolean
     role?: Role
+    isLoading: boolean
     onCancel: () => void; // Nueva prop para cancelar edición
     onSubmitProp: (data: Role) => void; // Pasamos la función del padre
 }
 
-export default function RolesForm({ isEditing = false, role, onCancel, onSubmitProp }: RolesFormProps) {
+export default function RolesForm({ isEditing = false, role, onCancel, onSubmitProp, isLoading }: RolesFormProps) {
 
     const { register, handleSubmit, reset, formState: { errors } } = useForm<Role>();
     
@@ -68,10 +69,11 @@ export default function RolesForm({ isEditing = false, role, onCancel, onSubmitP
                     {/* Botón Principal (Guardar/Actualizar) */}
                     <button
                         type="submit"
-                        className={`cursor-pointer flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-white font-medium transition-colors shadow-sm
+                        disabled={isLoading}
+                        className={`${isLoading ? 'cursor-not-allowed' : 'cursor-pointer'} flex-1 flex items-center justify-center gap-2 py-2.5 px-4 rounded-lg text-white font-medium transition-colors shadow-sm
                             ${isEditing
-                                ? 'bg-amber-500 hover:bg-amber-600 shadow-amber-100'
-                                : 'bg-blue-600 hover:bg-blue-700 shadow-blue-100'
+                                ? ` ${isLoading ? 'cursor-not-allowed bg-amber-200 hover:bg-amber-400' : 'cursor-pointer  bg-amber-500 hover:bg-amber-600'} shadow-amber-100`
+                                : ` ${isLoading ? 'cursor-not-allowed bg-blue-200 hover:bg-blue-400' : 'cursor-pointer  bg-blue-600 hover:bg-blue-700'} shadow-blue-100`
                             }`}
                     >
                         <Save size={18} />

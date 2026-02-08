@@ -1,38 +1,20 @@
-import { useState } from "react";
 import RolesForm from "../components/RolesForm";
-import { useGetAllRoles } from "../hooks/useRoles.use";
-import type { Role } from "../types/roles.types";
+import { useAllHandlersRoles, useGetAllRoles } from "../hooks/useRoles.use";
+
 import { Edit2, ShieldCheck, Users } from "lucide-react";
 
 
 export default function RolesPage() {
     // Hooks
-    const { data: roles, isLoading, isError, error } = useGetAllRoles();
+    const { data: roles, isLoading:isLoadingRoles, isError, error } = useGetAllRoles(true);  
+    const { handleCancelEdit, handleEditRole, handleSubmitForm,
+         isEditing, selectedRole, isLoading } = useAllHandlersRoles();
+  
 
-    // Estado local
-    const [isEditing, setIsEditing] = useState(false);
-    const [selectedRole, setSelectedRole] = useState<Role | undefined>(undefined);
-
-    // Handlers
-    const handleEditRole = (role: Role) => {
-        setIsEditing(true);
-        setSelectedRole(role);
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-
-    const handleCancelEdit = () => {
-        setIsEditing(false);
-        setSelectedRole(undefined);
-    }
-
-    const handleSubmitForm = (data: Role) => {
-        console.log("Enviando al backend:", data);
-        handleCancelEdit();
-    }
 
     // --- RENDERIZADO CONDICIONAL DE ESTADOS ---
 
-    if (isLoading) return (
+    if (isLoadingRoles) return (
         <div className="p-8 space-y-4 animate-pulse">
             <div className="h-8 bg-gray-200 rounded w-1/4"></div>
             <div className="grid md:grid-cols-3 gap-6">
@@ -71,6 +53,7 @@ export default function RolesPage() {
                         role={selectedRole}
                         onCancel={handleCancelEdit}
                         onSubmitProp={handleSubmitForm}
+                        isLoading={isLoading}
                     />
                 </div>
 
