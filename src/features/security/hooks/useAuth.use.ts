@@ -1,4 +1,4 @@
-import { useMutation } from "@tanstack/react-query"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { AuthRepositoryImpl } from "../services/auth.api"
 import type { CreateUserDTO, LoginUserDTO } from "../types/auth.types"
 import { ShowMessageAdapter } from "../../../core/utils/MessageAdapter"
@@ -7,6 +7,14 @@ import type { UseFormReset } from "react-hook-form"
 
 
 type resetForm = UseFormReset<CreateUserDTO>
+
+export const useGetAllUsers = () => {
+    return useQuery({
+        queryKey: ["users"],
+        queryFn: () => AuthRepositoryImpl.getAllUsers(),
+
+    })
+}
 
 export const useLogin = () => {
     const navigate = useNavigate();
@@ -23,12 +31,15 @@ export const useLogin = () => {
 
 
 export const useRegister = (resetForm: resetForm) => {
+    const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (credentials: CreateUserDTO) => AuthRepositoryImpl.register(credentials),
         onSuccess: (data) => {
             resetForm();
             ShowMessageAdapter.success(data);
+            queryClient.invalidateQueries({ queryKey: ["users"] });
         },
         onError: (error) => { ShowMessageAdapter.error(error.message); }
     })
 }
+

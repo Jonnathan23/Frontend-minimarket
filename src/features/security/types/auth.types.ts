@@ -1,15 +1,11 @@
+import type { z } from "zod";
+
 import type { Role } from "./roles.types";
+import type { UserSchema } from "../schemas/auth.schema";
 
 
-export interface User {
-    us_id?: string;
-    us_username: string;
-    us_password_encriptado: string;
-    us_nombre_completo?: string;
-    us_estado: boolean;
-    us_createdAt?: Date;
-    us_updatedAt?: Date;
-}
+
+export type User = z.infer<typeof UserSchema>;
 
 export interface LoginUserDTO {
     us_username: string;

@@ -54,7 +54,7 @@ export const modules: Module[] = [
         icon: Users,
         color: "bg-orange-600",
         hoverColor: "hover:bg-orange-50",
-        path: "/",
+        path: "/users",
         allowedRoles: [ROLES.ADMIN] // Solo Admin
     },
     {

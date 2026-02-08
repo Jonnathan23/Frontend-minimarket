@@ -1,7 +1,7 @@
 import { api } from "../../../core/api/config";
 import { JwtAdapter } from "../../../core/utils/Jwt";
-import { AuthResponseSchema } from "../schemas/auth.schema";
-import type { AuthResponse, CreateUserDTO, DecodedToken, LoginUserDTO } from "../types/auth.types";
+import { AllUsersSchema, AuthResponseSchema } from "../schemas/auth.schema";
+import type { AuthResponse, CreateUserDTO, DecodedToken, LoginUserDTO, User } from "../types/auth.types";
 
 
 
@@ -31,5 +31,16 @@ export const AuthRepositoryImpl = {
             console.log(error);
             throw error;
         }
-    }
+    },
+
+    getAllUsers: async (): Promise<User[]> => {
+        try {
+            const url = `auth/users`;
+            const users = await api.get<User[]>(url, AllUsersSchema);
+            return users;
+        } catch (error) {
+            console.log(error);
+            throw error;
+        }
+    },
 }

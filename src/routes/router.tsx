@@ -6,6 +6,7 @@ import LoginPage from "../features/security/pages/Login.page";
 import RegisterPage from "../features/security/pages/Register.page";
 import DashboardPage from "../core/pages/DashboardPage";
 import RolesPage from "../features/security/pages/Roles.page";
+import UserPage from "../features/security/pages/User.page";
 
 
 export default function Router() {
@@ -16,6 +17,7 @@ export default function Router() {
                     <Route path="/" element={<DashboardPage />} />
                     <Route path="/auth/register-new-user" element={<RegisterPage />} />
                     <Route path="/roles" element={<RolesPage />} />
+                    <Route path="/users" element={<UserPage />} />
                 </Route>
             </Routes>
             <Routes>
