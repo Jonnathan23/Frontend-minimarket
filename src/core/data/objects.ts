@@ -18,7 +18,7 @@ export const modules: Module[] = [
         icon: Package,
         color: "bg-emerald-600",
         hoverColor: "hover:bg-emerald-50",
-        path: "/",
+        path: "/products",
         allowedRoles: [ROLES.ADMIN, ROLES.BODEGUERO]
     },
     {
@@ -27,7 +27,7 @@ export const modules: Module[] = [
         icon: Tags,
         color: "bg-purple-600",
         hoverColor: "hover:bg-purple-50",
-        path: "/",
+        path: "/categories",
         allowedRoles: [ROLES.ADMIN, ROLES.BODEGUERO]
     },
     {
