@@ -19,9 +19,10 @@ interface AuthFormProps<T extends AuthFormData> {
 export default function AuthForm<T extends AuthFormData>({ isRegister, register, errors }: AuthFormProps<T>) {
 
     const inputStyles = "w-full px-4 py-2.5 rounded-lg border border-gray-300 focus:ring-2 focus:ring-blue-500 focus:border-transparent outline-none transition-all duration-200 bg-gray-50 focus:bg-white text-gray-700";
-    const labelStyles = "block text-sm font-semibold text-gray-600 mb-1.5";
+    const labelStyles = "block text-sm font-semibold text-gray-600 mb-1.5";   
+    
 
-    const { data: roles, isLoading: loadingRoles } = useGetAllRoles();
+    const { data: roles, isLoading: loadingRoles } = useGetAllRoles(isRegister);
 
 
     const getInputClass = (hasError: boolean) => `${inputStyles} ${hasError ? 'border-red-500 focus:ring-red-200' : ''}`;

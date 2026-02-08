@@ -11,6 +11,7 @@ interface BackendError {
     errors: { msg: string }[];
 }
 
+
 export class Api {
     private static instance: Api;
     private axiosInstance: AxiosInstance;
@@ -25,7 +26,7 @@ export class Api {
             },
         });
 
-        // INTERCEPTOR: Inyecta el token dinámicamente en cada petición
+        
         this.axiosInstance.interceptors.request.use((config) => {
             const token = localStorage.getItem('token');
             if (token && config.headers) {
@@ -34,9 +35,18 @@ export class Api {
             return config;
         });
 
+
         this.axiosInstance.interceptors.response.use(
-            (response) => response, 
-            (error: AxiosError<BackendError>) => {                
+            (response) => response,
+            (error: AxiosError<BackendError>) => {
+                if (error.response?.status === 401) {
+                    localStorage.removeItem('token');
+                    localStorage.removeItem('role');
+                    window.location.href = '/auth/login';
+
+                    return Promise.reject(new Error("La sesión ha expirado. Por favor inicia sesión nuevamente."));
+                }
+                
                 if (error.response?.data?.errors && error.response.data.errors.length > 0) {
                     const errorMessage = error.response.data.errors[0].msg;
                     return Promise.reject(new Error(errorMessage));
