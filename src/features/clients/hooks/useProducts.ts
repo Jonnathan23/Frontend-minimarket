@@ -3,6 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { ProductsImpl } from "../services/products.service";
 import type { CreateProductDto, Product, UpdateProductDto } from "../types/products.types";
+import { ShowMessageAdapter } from "../../../core/utils/MessageAdapter";
 
 export const useGetAllProducts = () => {
     return useQuery({
@@ -17,27 +18,33 @@ export const useCreateProduct = () => {
     return useMutation({
         mutationFn: ({ product, categoryId }: { product: CreateProductDto; categoryId: string }) =>
             ProductsImpl.createProduct(product, categoryId),
-        onSuccess: () => {
+        onSuccess: ({ message }) => {
+            ShowMessageAdapter.success(message);
             queryClient.invalidateQueries({ queryKey: ["products"] });
-            // Optionally invalidate categories if product count is tracked there, but usually not needed.
+        },
+        onError: (error) => {
+            ShowMessageAdapter.error(error.message);
         },
     });
 };
 
+interface UpdateProductParams {
+    product: UpdateProductDto;
+    productId: string;
+    categoryId: string;
+}
+
 export const useUpdateProduct = () => {
     const queryClient = useQueryClient();
     return useMutation({
-        mutationFn: ({
-            product,
-            productId,
-            categoryId,
-        }: {
-            product: UpdateProductDto;
-            productId: string;
-            categoryId: string;
-        }) => ProductsImpl.updateProduct(product, productId, categoryId),
-        onSuccess: () => {
+        mutationFn: ({ product, productId, categoryId }: UpdateProductParams) =>
+            ProductsImpl.updateProduct(product, productId, categoryId),
+        onSuccess: ({ message }) => {
+            ShowMessageAdapter.success(message);
             queryClient.invalidateQueries({ queryKey: ["products"] });
+        },
+        onError: (error) => {
+            ShowMessageAdapter.error(error.message);
         },
     });
 };
@@ -46,8 +53,12 @@ export const useDeleteProduct = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (id: string) => ProductsImpl.deleteProduct(id),
-        onSuccess: () => {
+        onSuccess: ({ message }) => {
+            ShowMessageAdapter.info(message);
             queryClient.invalidateQueries({ queryKey: ["products"] });
+        },
+        onError: (error) => {
+            ShowMessageAdapter.error(error.message);
         },
     });
 };
@@ -73,9 +84,6 @@ export const useProductsHandlers = () => {
     };
 
     const handleSubmitForm = (data: CreateProductDto | UpdateProductDto) => {
-        // Logic to extract categoryId from data or context needs to be handled by the component calling this.
-        // However, assuming the form provides the full DTO which includes pr_category_id.
-
         const categoryId = data.pr_category_id;
 
         if (!categoryId) {
@@ -84,13 +92,11 @@ export const useProductsHandlers = () => {
         }
 
         if (isEditing && selectedProduct) {
-            // For update, we might need to conform to UpdateProductDto
-            // We cast data as UpdateProductDto since the form should provide compatible data
             const updateData = data as UpdateProductDto;
 
             updateMutation({
                 product: updateData,
-                productId: selectedProduct.pr_id!, // Assumed present if editing
+                productId: selectedProduct.pr_id!,
                 categoryId
             });
         } else {

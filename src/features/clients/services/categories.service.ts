@@ -1,5 +1,6 @@
 
 import { api } from "../../../core/api/config";
+import type { ApiMessageResponse } from "../../../core/types";
 import { AllCategoriesSchema } from "../schemas/categories.schema";
 import type { Category, CreateCategoryDto, UpdateCategoryDto } from "../types/categories.types";
 
@@ -18,7 +19,7 @@ export const CategoriesImpl = {
     createCategory: async (category: CreateCategoryDto) => {
         try {
             const url = `/categories/`;
-            const dataResponse = await api.post<string, CreateCategoryDto>(url, category);
+            const dataResponse = await api.post<ApiMessageResponse, CreateCategoryDto>(url, category);
             return dataResponse;
         } catch (error) {
             console.error("Error al crear la categoría:", error);
@@ -29,7 +30,7 @@ export const CategoriesImpl = {
     updateCategory: async (categoryId: string, category: UpdateCategoryDto) => {
         try {
             const url = `/categories/${categoryId}`;
-            const dataResponse = await api.put<string, UpdateCategoryDto>(url, category);
+            const dataResponse = await api.put<ApiMessageResponse, UpdateCategoryDto>(url, category);
             return dataResponse;
         } catch (error) {
             console.error("Error al actualizar la categoría:", error);
@@ -40,7 +41,7 @@ export const CategoriesImpl = {
     deleteCategory: async (categoryId: string) => {
         try {
             const url = `/categories/${categoryId}`;
-            const dataResponse = await api.delete<string>(url);
+            const dataResponse = await api.delete<ApiMessageResponse>(url);
             return dataResponse;
         } catch (error) {
             console.error("Error al eliminar la categoría:", error);

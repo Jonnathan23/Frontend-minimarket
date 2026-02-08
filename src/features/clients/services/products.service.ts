@@ -1,5 +1,6 @@
 
 import { api } from "../../../core/api/config";
+import type { ApiMessageResponse } from "../../../core/types";
 import { AllProductsSchema } from "../schemas/products.schema";
 import type { CreateProductDto, Product, UpdateProductDto } from "../types/products.types";
 
@@ -19,7 +20,7 @@ export const ProductsImpl = {
         try {
             // URL: /api/products/category/:categoryId
             const url = `/products/category/${categoryId}`;
-            const dataResponse = await api.post<string, CreateProductDto>(url, product);
+            const dataResponse = await api.post<ApiMessageResponse, CreateProductDto>(url, product);
             return dataResponse;
         } catch (error) {
             console.error("Error al crear el producto:", error);
@@ -31,7 +32,7 @@ export const ProductsImpl = {
         try {
             // URL: /api/products/:productId/category/:categoryId
             const url = `/products/${productId}/category/${categoryId}`;
-            const dataResponse = await api.put<string, UpdateProductDto>(url, product);
+            const dataResponse = await api.put<ApiMessageResponse, UpdateProductDto>(url, product);
             return dataResponse;
         } catch (error) {
             console.error("Error al actualizar el producto:", error);
@@ -43,7 +44,7 @@ export const ProductsImpl = {
         try {
             // URL: /api/products/:productId
             const url = `/products/${productId}`;
-            const dataResponse = await api.delete<string>(url);
+            const dataResponse = await api.delete<ApiMessageResponse>(url);
             return dataResponse;
         } catch (error) {
             console.error("Error al eliminar el producto:", error);

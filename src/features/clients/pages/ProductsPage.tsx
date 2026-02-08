@@ -9,14 +9,7 @@ export default function ProductsPage() {
     const { data: products, isLoading: isLoadingProducts, isError, error } = useGetAllProducts();
     const { data: categories } = useGetAllCategories();
 
-    const {
-        handleCancelEdit,
-        handleEditProduct,
-        handleSubmitForm,
-        isEditing,
-        selectedProduct,
-        isLoading,
-    } = useProductsHandlers();
+    const { handleCancelEdit, handleEditProduct, handleSubmitForm, isEditing, selectedProduct, isLoading } = useProductsHandlers();
 
     const { mutate: deleteProduct } = useDeleteProduct();
 

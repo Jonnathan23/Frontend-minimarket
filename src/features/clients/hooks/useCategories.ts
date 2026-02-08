@@ -17,9 +17,9 @@ export const useCreateCategory = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (category: CreateCategoryDto) => CategoriesImpl.createCategory(category),
-        onSuccess: () => {
+        onSuccess: ({ message }) => {
+            ShowMessageAdapter.success(message);
             queryClient.invalidateQueries({ queryKey: ["categories"] });
-            ShowMessageAdapter.success("Categoría creada exitosamente");
         },
         onError: (error) => {
             ShowMessageAdapter.error(error.message);
@@ -37,9 +37,9 @@ export const useUpdateCategory = () => {
     return useMutation({
         mutationFn: ({ id, data }: UpdateCategoryOptions) =>
             CategoriesImpl.updateCategory(id, data),
-        onSuccess: () => {
+        onSuccess: ({ message }) => {
+            ShowMessageAdapter.success(message);
             queryClient.invalidateQueries({ queryKey: ["categories"] });
-            ShowMessageAdapter.success("Categoría actualizada exitosamente");
         },
         onError: (error) => {
             ShowMessageAdapter.error(error.message);
@@ -51,9 +51,9 @@ export const useDeleteCategory = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (id: string) => CategoriesImpl.deleteCategory(id),
-        onSuccess: () => {
+        onSuccess: ({ message }) => {
+            ShowMessageAdapter.info(message);
             queryClient.invalidateQueries({ queryKey: ["categories"] });
-            ShowMessageAdapter.info("Categoría eliminada exitosamente");
         },
         onError: (error) => {
             ShowMessageAdapter.error(error.message);

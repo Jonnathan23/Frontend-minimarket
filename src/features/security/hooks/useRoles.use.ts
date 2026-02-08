@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import { RolesImpl } from "../services/roles.api"
 import type { CreateRoleDTO, Role, UpdateRoleDTO } from "../types/roles.types"
 import { useState } from "react"
+import { ShowMessageAdapter } from "../../../core/utils/MessageAdapter"
 
 
 
@@ -18,8 +19,12 @@ export const useCreateRole = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (role: CreateRoleDTO) => RolesImpl.createRole(role),
-        onSuccess: () => {
+        onSuccess: ({ message }) => {
+            ShowMessageAdapter.success(message);
             queryClient.invalidateQueries({ queryKey: ["roles"] })
+        },
+        onError: (error) => {
+            ShowMessageAdapter.error(error.message);
         }
     })
 }
@@ -28,8 +33,12 @@ export const useUpdateRole = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (role: UpdateRoleDTO) => RolesImpl.updateRole(role),
-        onSuccess: () => {
+        onSuccess: ({ message }) => {
+            ShowMessageAdapter.success(message);
             queryClient.invalidateQueries({ queryKey: ["roles"] })
+        },
+        onError: (error) => {
+            ShowMessageAdapter.error(error.message);
         }
     })
 }
@@ -38,8 +47,12 @@ export const useDeleteRole = () => {
     const queryClient = useQueryClient();
     return useMutation({
         mutationFn: (id: string) => RolesImpl.deleteRole(id),
-        onSuccess: () => {
+        onSuccess: ({ message }) => {
+            ShowMessageAdapter.info(message);
             queryClient.invalidateQueries({ queryKey: ["roles"] })
+        },
+        onError: (error) => {
+            ShowMessageAdapter.error(error.message);
         }
     })
 }
@@ -48,10 +61,10 @@ export const useAllHandlersRoles = () => {
     const [isEditing, setIsEditing] = useState(false);
     const [selectedRole, setSelectedRole] = useState<Role | undefined>(undefined);
 
-    
 
-    const {mutate:createMutation, isPending:isCreating} = useCreateRole();
-    const {mutate:updateMutation, isPending:isUpdating} = useUpdateRole();
+
+    const { mutate: createMutation, isPending: isCreating } = useCreateRole();
+    const { mutate: updateMutation, isPending: isUpdating } = useUpdateRole();
 
     const isLoading = isCreating || isUpdating;
     // Handlers
@@ -85,6 +98,6 @@ export const useAllHandlersRoles = () => {
 
         isEditing,
         selectedRole,
-        isLoading        
+        isLoading
     }
 }

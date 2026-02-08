@@ -13,19 +13,8 @@ interface CategoriesFormProps {
     onSubmitProp: (data: CreateCategoryDto) => void;
 }
 
-export default function CategoriesForm({
-    isEditing = false,
-    category,
-    onCancel,
-    onSubmitProp,
-    isLoading,
-}: CategoriesFormProps) {
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors },
-    } = useForm<CreateCategoryDto>();
+export default function CategoriesForm({ isEditing = false, category, onCancel, onSubmitProp, isLoading, }: CategoriesFormProps) {
+    const { register, handleSubmit, reset, formState: { errors }, } = useForm<CreateCategoryDto>();
 
     useEffect(() => {
         if (isEditing && category) {
@@ -83,7 +72,7 @@ export default function CategoriesForm({
                 {/* Descripción */}
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">
-                        Descripción (Opcional)
+                        Descripción
                     </label>
                     <textarea
                         placeholder="Breve descripción de la categoría"
@@ -94,6 +83,8 @@ export default function CategoriesForm({
                                 : "border-gray-200 focus:ring-blue-100 focus:border-blue-500"
                             }`}
                         {...register("ca_descripcion", {
+                            required: "La descripción es requerida",
+                            minLength: { value: 3, message: "Mínimo 3 caracteres" },
                             maxLength: { value: 100, message: "Máximo 100 caracteres" },
                         })}
                     />
