@@ -13,3 +13,9 @@ export interface UpdateRoleDTO {
     ro_id: string;
     ro_nombre_del_rol: string;
 }
+
+export const ROLES = {
+    ADMIN: "ADMIN",
+    VENDEDOR: "VENDEDOR",
+    BODEGUERO: "BODEGUERO" // Asumo este rol para productos/proveedores
+};

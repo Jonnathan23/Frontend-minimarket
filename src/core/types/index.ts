@@ -8,4 +8,5 @@ export interface Module {
     color: string;
     hoverColor: string;
     path: string;
+    allowedRoles: string[];
 }

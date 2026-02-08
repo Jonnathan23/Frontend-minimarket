@@ -1,6 +1,7 @@
 import { api } from "../../../core/api/config";
+import { JwtAdapter } from "../../../core/utils/Jwt";
 import { AuthResponseSchema } from "../schemas/auth.schema";
-import type { AuthResponse, CreateUserDTO, LoginUserDTO } from "../types/auth.types";
+import type { AuthResponse, CreateUserDTO, DecodedToken, LoginUserDTO } from "../types/auth.types";
 
 
 
@@ -10,7 +11,10 @@ export const AuthRepositoryImpl = {
         try {
             const url = `auth/login`;
             const authResponse = await api.post<AuthResponse, LoginUserDTO>(url, credentials, AuthResponseSchema);
-            localStorage.setItem("token", authResponse.token);
+            const data = JwtAdapter.decodeToken<DecodedToken>(authResponse.token);           
+            
+            localStorage.setItem("token", authResponse.token);            
+            localStorage.setItem("role", data.role || "INVITADO");
             return;
         } catch (error) {
             console.log(error);
