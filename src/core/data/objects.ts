@@ -9,7 +9,7 @@ export const modules: Module[] = [
         icon: ShoppingCart,
         color: "bg-blue-600",
         hoverColor: "hover:bg-blue-50",
-        path: "/",
+        path: "/purchases",
         allowedRoles: [ROLES.ADMIN, ROLES.VENDEDOR]
     },
     {
@@ -63,7 +63,7 @@ export const modules: Module[] = [
         icon: Truck,
         color: "bg-indigo-600",
         hoverColor: "hover:bg-indigo-50",
-        path: "/",
+        path: "/providers",
         allowedRoles: [ROLES.ADMIN, ROLES.BODEGUERO]
     },
     {

@@ -9,6 +9,8 @@ import RolesPage from "../features/security/pages/Roles.page";
 import UserPage from "../features/security/pages/User.page";
 import ProductsPage from "../features/clients/pages/ProductsPage";
 import CategoriesPage from "../features/clients/pages/CategoriesPage";
+import ProvidersPage from "../features/providers/pages/ProvidersPage";
+import PurchasesPage from "../features/providers/pages/PurchasesPage";
 
 
 export default function Router() {
@@ -24,6 +26,9 @@ export default function Router() {
 
                     <Route path="/categories" element={<CategoriesPage />} />
                     <Route path="/products" element={<ProductsPage />} />
+
+                    <Route path="/providers" element={<ProvidersPage />} />
+                    <Route path="/purchases" element={<PurchasesPage />} />
                 </Route>
             </Routes>
             <Routes>
