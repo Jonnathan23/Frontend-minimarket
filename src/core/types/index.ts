@@ -10,3 +10,7 @@ export interface Module {
     path: string;
     allowedRoles: string[];
 }
+
+export interface ApiMessageResponse {
+    message: string;
+}

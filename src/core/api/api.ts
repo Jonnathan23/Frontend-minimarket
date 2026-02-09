@@ -26,7 +26,7 @@ export class Api {
             },
         });
 
-        
+
         this.axiosInstance.interceptors.request.use((config) => {
             const token = localStorage.getItem('token');
             if (token && config.headers) {
@@ -46,7 +46,7 @@ export class Api {
 
                     return Promise.reject(new Error("La sesión ha expirado. Por favor inicia sesión nuevamente."));
                 }
-                
+
                 if (error.response?.data?.errors && error.response.data.errors.length > 0) {
                     const errorMessage = error.response.data.errors[0].msg;
                     return Promise.reject(new Error(errorMessage));
@@ -87,5 +87,9 @@ export class Api {
 
     public async delete<T>(url: string, schema?: unknown): Promise<T> {
         return this.request<T>(() => this.axiosInstance.delete(url), schema);
+    }
+
+    public async patch<T, U>(url: string, body: U, schema?: unknown): Promise<T> {
+        return this.request<T>(() => this.axiosInstance.patch(url, body), schema);
     }
 }
