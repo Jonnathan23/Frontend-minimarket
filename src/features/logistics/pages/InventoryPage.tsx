@@ -2,6 +2,7 @@
 import { Package, History, ArrowUpRight, ArrowDownLeft, FileText } from "lucide-react";
 import InventoryAdjustmentForm from "../components/InventoryAdjustmentForm";
 import { useCreateInventoryAdjustment, useGetAllInventoryMovements } from "../hooks/useLogistics";
+import type { CreateInventoryMovementDto, InventoryMovement } from "../types/inventory.types";
 
 export default function InventoryPage() {
 
@@ -9,7 +10,7 @@ export default function InventoryPage() {
     const { data: movements, isLoading: isLoadingList, isError, error } = useGetAllInventoryMovements();
     const { mutate: createAdjustment, isPending: isCreating } = useCreateInventoryAdjustment();
 
-    const handleSubmit = (data: any) => {
+    const handleSubmit = (data: CreateInventoryMovementDto) => {
         createAdjustment(data);
     };
 
@@ -67,7 +68,7 @@ export default function InventoryPage() {
                     </h3>
 
                     <div className="grid gap-4">
-                        {movements?.map((movement: any) => (
+                        {movements?.map((movement: InventoryMovement) => (
                             <div
                                 key={movement.im_id}
                                 className="bg-white p-5 rounded-xl border border-gray-200 hover:border-orange-200 hover:shadow-sm transition-all duration-200"

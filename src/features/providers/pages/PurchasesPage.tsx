@@ -38,7 +38,7 @@ export default function PurchasesPage() {
             <div className="mb-8">
                 <h1 className="text-2xl font-bold text-gray-800 flex items-center gap-2">
                     <ShoppingBag className="text-rose-600" />
-                    Gestión de Compras
+                    Gestión de Compras del Proveedor
                 </h1>
                 <p className="text-gray-500 mt-1">
                     Registra el ingreso de mercadería y controla tus adquisiciones.

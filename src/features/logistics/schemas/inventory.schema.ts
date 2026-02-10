@@ -1,19 +1,20 @@
-import { coerce, object, string, z } from "zod";
+import { string, z } from "zod";
 
-export const InventoryMovementSchema = object({
-    im_id: string().uuid().optional(),
-    im_fecha: string().optional(), // Backend usually sets this
+export const InventoryMovementSchema = z.object({
+    im_id: string(),
+    im_fecha: string().optional(),
     im_tipo: z.enum(["ENTRADA", "SALIDA"]),
-    im_cantidad: coerce.number().int("Debe ser un número entero").positive("La cantidad debe ser positiva"),
+
+    // 👇 CORRECCIÓN AQUÍ: Usar el nombre real de la columna de BD
+    im_product_id: string().uuid("Seleccione un producto válido"),
+
+    im_cantidad: z.coerce.number().int("Debe ser un número entero").positive("La cantidad debe ser positiva"),
     im_referencia: string().min(3, "La referencia debe tener al menos 3 caracteres"),
 
-    // Virtual field for form handling, not necessarily in the movement object response structure from some endpoints
-    productId: string().uuid("Seleccione un producto válido"),
-
-    // Optional populated product field for lists
-    product: object({
-        pr_name: string(),
+    // Objeto anidado (Opcional, pero ideal para mostrar nombres en la tabla)
+    product: z.object({
+        pr_name: z.string(),
     }).optional()
 });
 
-export const AllInventoryMovementsSchema = InventoryMovementSchema.array();
+export const AllInventoryMovementsSchema = z.array(InventoryMovementSchema);

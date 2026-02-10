@@ -1,15 +1,15 @@
 import { ROLES } from "../../features/security/types/roles.types";
 import type { Module } from "../types";
-import { ShoppingCart, Package, Tags, Users, Truck, BarChart3, Settings, UserPlus, UserCog } from "lucide-react";
+import { ShoppingCart, Package, Tags, Users, Truck, BarChart3, UserPlus, UserCog } from "lucide-react";
 
 export const modules: Module[] = [
     {
-        title: "Punto de Venta",
+        title: "Ventas",
         description: "Registrar nuevas ventas y facturación",
         icon: ShoppingCart,
-        color: "bg-blue-600",
-        hoverColor: "hover:bg-blue-50",
-        path: "/purchases",
+        color: "bg-cyan-600",
+        hoverColor: "hover:bg-cyan-50",
+        path: "/sales",
         allowedRoles: [ROLES.ADMIN, ROLES.VENDEDOR]
     },
     {
@@ -20,6 +20,15 @@ export const modules: Module[] = [
         hoverColor: "hover:bg-emerald-50",
         path: "/products",
         allowedRoles: [ROLES.ADMIN, ROLES.BODEGUERO]
+    },
+    {
+        title: "Compras a Proveedores",
+        description: "Registrar nuevas compras a proveedores",
+        icon: ShoppingCart,
+        color: "bg-blue-600",
+        hoverColor: "hover:bg-blue-50",
+        path: "/purchases",
+        allowedRoles: [ROLES.ADMIN, ROLES.VENDEDOR]
     },
     {
         title: "Categorías",
@@ -67,14 +76,24 @@ export const modules: Module[] = [
         allowedRoles: [ROLES.ADMIN, ROLES.BODEGUERO]
     },
     {
+        title: "Caja",
+        description: "Gestión de caja y ventas",
+        icon: BarChart3,
+        color: "bg-rose-600",
+        hoverColor: "hover:bg-rose-50",
+        path: "/cash",
+        allowedRoles: [ROLES.ADMIN]
+    },
+    {
         title: "Reportes",
         description: "Estadísticas de ventas y ganancias",
         icon: BarChart3,
         color: "bg-rose-600",
         hoverColor: "hover:bg-rose-50",
-        path: "/",
+        path: "/inventory",
         allowedRoles: [ROLES.ADMIN]
     },
+    /*,
     {
         title: "Configuración",
         description: "Ajustes generales del sistema",
@@ -84,4 +103,5 @@ export const modules: Module[] = [
         path: "/",
         allowedRoles: [ROLES.ADMIN]
     },
+    */
 ];

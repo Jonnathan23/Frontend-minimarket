@@ -7,10 +7,10 @@ import type { AllCashMovements, CreateCashMovementDto } from "../types/cash.type
 import type { AllInventoryMovements, CreateInventoryMovementDto } from "../types/inventory.types";
 
 export const LogisticsImpl = {
-    // --- Cash ---
+    
     getAllCashMovements: async () => {
-        try {
-            const url = `/cash/`;
+        try {            
+            const url = `/cash-movements/`;
             const dataResponse = await api.get<AllCashMovements>(url, AllCashMovementsSchema);
             return dataResponse;
         } catch (error) {
@@ -21,7 +21,7 @@ export const LogisticsImpl = {
 
     createCashMovement: async (cashMovement: CreateCashMovementDto) => {
         try {
-            const url = `/cash/cash`;
+            const url = `/cash-movements/cash`;
             const dataResponse = await api.post<ApiMessageResponse, CreateCashMovementDto>(url, cashMovement);
             return dataResponse;
         } catch (error) {
@@ -30,10 +30,9 @@ export const LogisticsImpl = {
         }
     },
 
-    // --- Inventory ---
     getAllInventoryMovements: async () => {
         try {
-            const url = `/inventory/`;
+            const url = `/inventory-movements/`;
             const dataResponse = await api.get<AllInventoryMovements>(url, AllInventoryMovementsSchema);
             return dataResponse;
         } catch (error) {
@@ -44,10 +43,11 @@ export const LogisticsImpl = {
 
     createInventoryAdjustment: async (inventoryMovement: CreateInventoryMovementDto) => {
         try {
-            // URL: /api/inventory/movement/:productId
-            const { productId, ...body } = inventoryMovement;
-            const url = `/inventory/movement/${productId}`;
-            const dataResponse = await api.post<ApiMessageResponse, Omit<CreateInventoryMovementDto, "productId">>(url, body);
+            const { im_product_id, ...body } = inventoryMovement;
+            
+            const url = `/inventory-movements/movement/${im_product_id}`;
+            
+            const dataResponse = await api.post<ApiMessageResponse, Omit<CreateInventoryMovementDto, "im_product_id">>(url, body);
             return dataResponse;
         } catch (error) {
             console.error("Error al crear ajuste de inventario:", error);

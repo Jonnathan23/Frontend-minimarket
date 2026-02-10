@@ -2,6 +2,7 @@
 import { CircleDollarSign, Banknote, Calendar, ArrowRightLeft } from "lucide-react";
 import CashForm from "../components/CashForm";
 import { useCreateCashMovement, useGetAllCashMovements } from "../hooks/useLogistics";
+import type { CashMovement, CreateCashMovementDto } from "../types/cash.types";
 
 export default function CashPage() {
 
@@ -9,7 +10,7 @@ export default function CashPage() {
     const { data: movements, isLoading: isLoadingList, isError, error } = useGetAllCashMovements();
     const { mutate: createMovement, isPending: isCreating } = useCreateCashMovement();
 
-    const handleSubmit = (data: any) => {
+    const handleSubmit = (data: CreateCashMovementDto) => {
         createMovement(data);
     };
 
@@ -67,7 +68,7 @@ export default function CashPage() {
                     </h3>
 
                     <div className="grid gap-4">
-                        {movements?.map((movement: any) => (
+                        {movements?.map((movement: CashMovement) => (
                             <div
                                 key={movement.cm_id}
                                 className="bg-white p-5 rounded-xl border border-gray-200 hover:border-emerald-200 hover:shadow-sm transition-all duration-200"
@@ -75,7 +76,7 @@ export default function CashPage() {
                                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                                     <div className="flex items-start gap-4">
                                         <div className={`w-12 h-12 rounded-full flex items-center justify-center shrink-0 ${movement.cm_tipo === 'APERTURA' ? 'bg-emerald-50 text-emerald-600' :
-                                                movement.cm_tipo === 'CIERRE' ? 'bg-red-50 text-red-600' : 'bg-blue-50 text-blue-600'
+                                            movement.cm_tipo === 'CIERRE' ? 'bg-red-50 text-red-600' : 'bg-blue-50 text-blue-600'
                                             }`}>
                                             <ArrowRightLeft size={20} />
                                         </div>
@@ -83,7 +84,7 @@ export default function CashPage() {
                                         <div>
                                             <div className="flex items-center gap-2 mb-1">
                                                 <span className={`px-2 py-0.5 rounded text-xs font-bold uppercase tracking-wider ${movement.cm_tipo === 'APERTURA' ? 'bg-emerald-100 text-emerald-700' :
-                                                        movement.cm_tipo === 'CIERRE' ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700'
+                                                    movement.cm_tipo === 'CIERRE' ? 'bg-red-100 text-red-700' : 'bg-blue-100 text-blue-700'
                                                     }`}>
                                                     {movement.cm_tipo}
                                                 </span>

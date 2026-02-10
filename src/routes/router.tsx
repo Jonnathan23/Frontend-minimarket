@@ -11,6 +11,9 @@ import CategoriesPage from "../features/clients/pages/CategoriesPage";
 import ProductsPage from "../features/clients/pages/ProductsPage";
 import ProvidersPage from "../features/providers/pages/ProvidersPage";
 import PurchasesPage from "../features/providers/pages/PurchasesPage";
+import InventoryPage from "../features/logistics/pages/InventoryPage";
+import CashPage from "../features/logistics/pages/CashPage";
+import POSPage from "../features/sales/pages/POSPage";
 
 
 export default function Router() {
@@ -29,6 +32,11 @@ export default function Router() {
 
                     <Route path="/providers" element={<ProvidersPage />} />
                     <Route path="/purchases" element={<PurchasesPage />} />
+
+                    <Route path="/inventory" element={<InventoryPage />} />
+                    <Route path="/cash" element={<CashPage />} />
+
+                    <Route path="/sales" element={<POSPage />} />
                 </Route>
             </Routes>
             <Routes>

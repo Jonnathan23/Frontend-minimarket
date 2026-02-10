@@ -12,6 +12,8 @@ export default function DashboardPage() {
         module.allowedRoles.includes(userRole)
     );
 
+    
+
     return (
         <div className="animate-fadeIn space-y-8">
 
