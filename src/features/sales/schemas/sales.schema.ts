@@ -12,7 +12,7 @@ export const SaleSchema = object({
     sa_fecha: string().or(z.date()), // Date or ISO string
     sa_total: coerce.number().min(0, "El total no puede ser negativo"),
     sa_medio_de_pago: z.enum(["EFECTIVO", "TARJETA", "TRANSFERENCIA"], {
-        errorMap: () => ({ message: "Seleccione un medio de pago válido" })
+        message: "Seleccione un medio de pago válido"
     }),
     details: array(SaleDetailSchema).min(1, "Debe agregar al menos un producto a la venta")
 });
