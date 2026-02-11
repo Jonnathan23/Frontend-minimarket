@@ -15,8 +15,7 @@ export default function CategoriesPage() {
         isLoading,
     } = useCategoriesHandlers();
 
-    // Hook para eliminar (no estaba en handlers por defecto en la estructura de Roles, lo agrego aquí directo o uso un handler si existiera)
-    // En RolesPage no vi el delete implementado en la vista, pero el usuario lo pidió en los requisitos: "botones de acción (Editar/Eliminar) visibles".
+    
     const { mutate: deleteCategory } = useDeleteCategory();
 
     const handleDelete = (id: string) => {

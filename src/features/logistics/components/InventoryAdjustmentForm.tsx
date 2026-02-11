@@ -12,28 +12,28 @@ interface InventoryFormProps {
 
 export default function InventoryAdjustmentForm({ isLoading, onSubmitProp }: InventoryFormProps) {
 
-    // We add productId to the form data manually as it's part of our extended DTO for the form
-    const { register, handleSubmit, reset, formState: { errors } } = useForm<CreateInventoryMovementDto & { productId: string }>({
+    const { register, handleSubmit, reset, formState: { errors } } = useForm<CreateInventoryMovementDto>({
         defaultValues: {
             im_tipo: "ENTRADA",
             im_cantidad: 1,
             im_referencia: "",
-            productId: ""
+            im_product_id: "" 
         }
     });
 
     const { data: products } = useGetAllProducts();
 
-    const handleFormSubmit = (data: CreateInventoryMovementDto & { productId: string }) => {
+    const handleFormSubmit = (data: CreateInventoryMovementDto) => {
         onSubmitProp({
             ...data,
             im_cantidad: Number(data.im_cantidad)
         });
+
         reset({
             im_tipo: "ENTRADA",
             im_cantidad: 1,
             im_referencia: "",
-            productId: ""
+            im_product_id: ""
         });
     };
 
@@ -54,9 +54,9 @@ export default function InventoryAdjustmentForm({ isLoading, onSubmitProp }: Inv
                 <div>
                     <label className="block text-sm font-medium text-gray-700 mb-1">Producto</label>
                     <select
-                        className={`w-full px-4 py-2.5 rounded-lg border focus:ring-2 outline-none transition-all ${errors.productId ? "border-red-300 focus:ring-red-100 focus:border-red-500" : "border-gray-200 focus:ring-orange-100 focus:border-orange-500"
+                        className={`w-full px-4 py-2.5 rounded-lg border focus:ring-2 outline-none transition-all ${errors.im_product_id ? "border-red-300 focus:ring-red-100 focus:border-red-500" : "border-gray-200 focus:ring-orange-100 focus:border-orange-500"
                             }`}
-                        {...register("productId", { required: "Seleccione un producto" })}
+                        {...register("im_product_id", { required: "Seleccione un producto" })}
                         defaultValue=""
                     >
                         <option value="" disabled>Seleccione...</option>
@@ -64,7 +64,7 @@ export default function InventoryAdjustmentForm({ isLoading, onSubmitProp }: Inv
                             <option key={p.pr_id} value={p.pr_id}>{p.pr_name} (Stock: {p.pr_stock})</option>
                         ))}
                     </select>
-                    <ErrorFormMessage>{errors.productId?.message}</ErrorFormMessage>
+                    <ErrorFormMessage>{errors.im_product_id?.message}</ErrorFormMessage>
                 </div>
 
                 {/* Tipo de Ajuste */}

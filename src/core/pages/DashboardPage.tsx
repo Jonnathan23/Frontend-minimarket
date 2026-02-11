@@ -1,7 +1,8 @@
 
 import { Link } from "react-router-dom";
 import { modules } from "../data/objects";
-import { BarChart3, ShieldAlert } from "lucide-react";
+import { BarChart3, ShieldAlert, Loader2 } from "lucide-react";
+import { useDashboardMetrics } from "../hooks/useDashboardMetrics";
 
 export default function DashboardPage() {
     // 1. Obtener el rol del usuario (Normalizamos a Mayúsculas por si acaso)
@@ -12,7 +13,10 @@ export default function DashboardPage() {
         module.allowedRoles.includes(userRole)
     );
 
-    
+    // 3. Obtener métricas (Solo si es ADMIN, aunque el hook se ejecuta igual, la UI lo oculta)
+    // Podríamos condicionar la ejecución del hook si quisiéramos optimizar aún más, 
+    // pero por ahora lo dejamos simple.
+    const { metrics, isLoading } = useDashboardMetrics();
 
     return (
         <div className="animate-fadeIn space-y-8">
@@ -70,28 +74,36 @@ export default function DashboardPage() {
             )}
 
             {/* WIDGET DE ESTADÍSTICAS (Solo visible para ADMIN o GERENCIA) */}
-            {/* Puedes aplicar la misma lógica aquí si no quieres que el vendedor vea las ganancias totales */}
             {userRole === "ADMIN" && (
                 <div className="bg-white rounded-xl border border-gray-200 p-6 shadow-sm">
                     <div className="flex items-center gap-4 mb-6">
                         <div className="p-2 bg-blue-100 rounded-lg text-blue-600">
                             <BarChart3 size={20} />
                         </div>
-                        <h3 className="font-bold text-gray-800">Métricas del Día</h3>
+                        <h3 className="font-bold text-gray-800 flex items-center gap-3">
+                            Métricas del Día
+                            {isLoading && <Loader2 size={16} className="text-gray-400 animate-spin" />}
+                        </h3>
                     </div>
 
                     <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-center divide-y md:divide-y-0 md:divide-x divide-gray-100">
                         <div className="py-2">
-                            <p className="text-3xl font-bold text-gray-900">0</p>
+                            <p className="text-3xl font-bold text-gray-900">
+                                {isLoading ? "-" : metrics.totalVentas}
+                            </p>
                             <p className="text-xs text-gray-400 uppercase tracking-wider mt-1">Ventas Realizadas</p>
                         </div>
                         <div className="py-2">
-                            <p className="text-3xl font-bold text-gray-900">$0.00</p>
+                            <p className="text-3xl font-bold text-gray-900">
+                                {isLoading ? "-" : `$${metrics.ingresosTotales.toFixed(2)}`}
+                            </p>
                             <p className="text-xs text-gray-400 uppercase tracking-wider mt-1">Ingresos Totales</p>
                         </div>
                         <div className="py-2">
-                            <p className="text-3xl font-bold text-gray-900">0</p>
-                            <p className="text-xs text-gray-400 uppercase tracking-wider mt-1">Productos Bajos</p>
+                            <p className={`text-3xl font-bold ${!isLoading && metrics.productosBajos > 0 ? "text-amber-500" : "text-gray-900"}`}>
+                                {isLoading ? "-" : metrics.productosBajos}
+                            </p>
+                            <p className="text-xs text-gray-400 uppercase tracking-wider mt-1">Productos Bajos en Stock</p>
                         </div>
                     </div>
                 </div>

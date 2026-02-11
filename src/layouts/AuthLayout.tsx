@@ -19,7 +19,7 @@ export default function AuthLayout() {
                     </div>
                 </header>
 
-                <main className="flex-grow flex items-center justify-center p-4">
+                <main className="grow flex items-center justify-center p-4">
                     <div className="w-full max-w-md bg-white rounded-2xl shadow-xl shadow-gray-200/50 border border-gray-100 overflow-hidden">
                         <Outlet />
                     </div>
